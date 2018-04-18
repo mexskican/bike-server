@@ -82,6 +82,10 @@ func addBikeHandler(w http.ResponseWriter, r *http.Request) {
 	// Need to run an ETH node locally
 	// Create an IPC based RPC connection to a remote node and instantiate a contract binding
 	// Change the path with your own
+	newBikeId, _ := strconv.ParseInt(r.URL.Path[len("/add-bike/"):], 10, 64)
+	if newBikeId == 0 {
+		fmt.Fprintf(w, "<h1>Wrong Parameter<h1>")
+	}
 	conn, err := ethclient.Dial("/home/mexskican/.ethereum/testnet/geth.ipc")
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
@@ -95,7 +99,7 @@ func addBikeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Failed to create authorized transactor: %v", err)
 	}
-	tx, err := contract.AddBike(auth, big.NewInt(123))
+	tx, err := contract.AddBike(auth, big.NewInt(newBikeId))
 	if err != nil {
 		log.Fatalf("Failed to add a bike to the smart contract: %v", err)
 	}
