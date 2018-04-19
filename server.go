@@ -69,7 +69,7 @@ func tokenHandler(w http.ResponseWriter, r *http.Request) {
 		price, _ := contract.PRICE(&bind.CallOpts{})
 		fmt.Fprintf(w, "<h1>Token price:</h1><div>%d</div>", price)
 	} else if strings.HasPrefix(method, "balance") {
-		address := r.URL.Path[len("/view-bike/balance/"):]
+		address := r.URL.Path[len("/view-token/balance/"):]
 		balance := big.NewInt(0)
 		balance, _ = contract.BalanceOf(&bind.CallOpts{}, common.HexToAddress(address))
 		fmt.Fprintf(w, "<h1>Balance of %s:</h1><div>%d</div>",address, balance)
