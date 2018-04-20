@@ -1,6 +1,6 @@
 # Bike Server
-The Bike contract is deployed on Rinkeby at [0x903b552d9dba24bbb908a064d8568b76923d5501](https://rinkeby.etherscan.io/address/0x903b552d9dba24bbb908a064d8568b76923d5501)   
-The Bike Token contract is deployed on Rinkeby at [0x6bab74f46d46cbb495d61a3c730b657e46f605fa](https://rinkeby.etherscan.io/address/0x6bab74f46d46cbb495d61a3c730b657e46f605fa)
+The Bike contract is deployed on Rinkeby at [0x68954caada95c39c268896907edde08e9ef86081](https://rinkeby.etherscan.io/address/0x68954caada95c39c268896907edde08e9ef86081)   
+The Bike Token contract is deployed on Rinkeby at [0xf039f64cc421f3a2016570578fe5d4983d73a5fe](https://rinkeby.etherscan.io/address/0xf039f64cc421f3a2016570578fe5d4983d73a5fe)
 
 ## Read only functions
 The read only functions are using Infura as an Ethereum provider, therefore the user does not need to run a node locally to call those functions.
