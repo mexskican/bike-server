@@ -20,13 +20,16 @@ $ ./server
 3. Send some requests
 ```
 $ curl http://localhost:8080/view-bike/hourlycost
-$ curl http://localhost:8080/view-bike/isavailable/12
-$ curl http://localhost:8080/view-bike/bikeid/0x8bc5e21f598e736e900e36adfaddc0d49a588dad
-$ curl http://localhost:8080/view-bike/returntime/0x8bc5e21f598e736e900e36adfaddc0d49a588dad
+$ curl http://localhost:8080/view-bike/isavailable/55
+$ curl http://localhost:8080/view-bike/bikeid/0xe8076f19c37f318f59dffb71870f7f9b1ac817ba
+$ curl http://localhost:8080/view-bike/returntime/0xe8076f19c37f318f59dffb71870f7f9b1ac817ba
 
 $ curl http://localhost:8080/view-token/name
 $ curl http://localhost:8080/view-token/price
-$ curl http://localhost:8080/view-token/balance/0x8bc5e21f598e736e900e36adfaddc0d49a588dad
-
+$ curl http://localhost:8080/view-token/balance/0xe8076f19c37f318f59dffb71870f7f9b1ac817ba
+```
+Transactions can be send using this server. The key and password field can be changed to use a different account, but the addBike method will only suceed with the contract owner account.
+```
 $ curl http://localhost:8080/add-bike/123
 ```
+The server will prepare and sign the transaction offchain and send the raw transaction to the Rinkeby network using Infura.

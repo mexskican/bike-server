@@ -23,11 +23,13 @@ var (
 )
 
 const (
-	key = ``
+	// This is the json key of the RINKEBY address 0x419a0372b09bc55e74e4ec1ee41dfcf952245774 (specially created to test this app)
+	// You should NEVER push your mainnet key to any GitHub repository
+	key = `{"address":"419a0372b09bc55e74e4ec1ee41dfcf952245774","crypto":{"cipher":"aes-128-ctr","ciphertext":"7ac7cb5e66f70368398a886eb4243e0beaf2e9515cb3f8d6bc59e69bf8f8d4c3","cipherparams":{"iv":"46a70bb5cd4caa3363a86e9fb54eea17"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"429e87e3e942822b698ced88a4991b0fa05f4de8539ca1a752b1f0fb60821798"},"mac":"67620de566b0949dde05b545c3f2ce54142f9958b37d7634cc7db33d7101319f"},"id":"bd8ca65e-4071-445e-9286-fb33f9c5c060","version":3}`
 	infuraEndpoint = "https://rinkeby.infura.io/SlVwORwAFmkf4EHiccur"
 	localEndpoint = "/home/mexskican/.ethereum/testnet/geth.ipc"
-	bikeContractAddress = "0x903b552d9dba24bbb908a064d8568b76923d5501"
-	tokenContractAddress = "0x6bab74f46d46cbb495d61a3c730b657e46f605fa"
+	bikeContractAddress = "0x68954caada95c39c268896907edde08e9ef86081"
+	tokenContractAddress = "0xf039f64cc421f3a2016570578fe5d4983d73a5fe"
 )
 
 
@@ -77,6 +79,7 @@ func addBikeHandler(w http.ResponseWriter, r *http.Request) {
 	if newBikeId == 0 {
 		fmt.Fprintf(w, "<h1>Wrong Parameter<h1>")
 	}
+	// The function has to be called with the contract owner address
 	tx, err := bikeSession.AddBike(big.NewInt(newBikeId))
 	if err != nil {
 		log.Fatalf("Failed to add a bike to the smart contract: %v", err)
@@ -98,8 +101,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to instantiate contract: %v", err)
 	}
-
-	auth, err := bind.NewTransactor(strings.NewReader(key), "")
+	// "hello" is the password for the RINKEBY address 0x419a0372b09bc55e74e4ec1ee41dfcf952245774
+	// You should NEVER push your mainnet password to any GitHub repository
+	auth, err := bind.NewTransactor(strings.NewReader(key), "hello")
 	if err != nil {
 		log.Fatalf("Failed to create authorized transactor: %v", err)
 	}
@@ -109,7 +113,11 @@ func main() {
 		CallOpts: bind.CallOpts{
 			Pending: true,
 		},
-		TransactOpts: bind.TransactOpts{},
+		TransactOpts: bind.TransactOpts{
+			From:     auth.From,
+			Signer:   auth.Signer,
+			GasLimit: 100000,
+		},
 	}
 	tokenSession = &token.BikeTokenSession{
 		Contract: tokenContract,
