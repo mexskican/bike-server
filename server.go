@@ -88,7 +88,7 @@ func addBikeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Transfer pending: 0x%x\n", tx.Hash())
 }
 
-func main() {
+func setContracts() {
 	conn, err := ethclient.Dial(infuraEndpoint)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum network: %v", err)
@@ -126,6 +126,10 @@ func main() {
 		},
 		TransactOpts: bind.TransactOpts{},
 	}
+}
+
+func main() {
+	setContracts()
 
 	http.HandleFunc("/view-bike/", bikeHandler)
 	http.HandleFunc("/view-token/", tokenHandler)
