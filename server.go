@@ -17,14 +17,21 @@ import (
 	"./token"
 )
 
-const key = `paste the contents of your *testnet* key json here`
+const (
+	key = "paste the contents of your *rinkeby* key json here"
+	infuraEndpoint = "https://rinkeby.infura.io/SlVwORwAFmkf4EHiccur"
+	localEndpoint = "/home/mexskican/.ethereum/testnet/geth.ipc"
+	bikeContractAddress = "0x903b552d9dba24bbb908a064d8568b76923d5501"
+	tokenContractAddress = "0x6bab74f46d46cbb495d61a3c730b657e46f605fa"
+)
+
 
 func bikeHandler(w http.ResponseWriter, r *http.Request) {
-	conn, err := ethclient.Dial("https://rinkeby.infura.io/SlVwORwAFmkf4EHiccur")
+	conn, err := ethclient.Dial(infuraEndpoint)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum network: %v", err)
 	}
-	contract, err := bike.NewBike(common.HexToAddress("0x903b552d9dba24bbb908a064d8568b76923d5501"), conn)
+	contract, err := bike.NewBike(common.HexToAddress(bikeContractAddress), conn)
 	if err != nil {
 		log.Fatalf("Failed to instantiate contract: %v", err)
 	}
@@ -52,11 +59,11 @@ func bikeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func tokenHandler(w http.ResponseWriter, r *http.Request) {
-	conn, err := ethclient.Dial("https://rinkeby.infura.io/SlVwORwAFmkf4EHiccur")
+	conn, err := ethclient.Dial(infuraEndpoint)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum network: %v", err)
 	}
-	contract, err := token.NewBikeToken(common.HexToAddress("0x6bab74f46d46cbb495d61a3c730b657e46f605fa"), conn)
+	contract, err := token.NewBikeToken(common.HexToAddress(tokenContractAddress), conn)
 	if err != nil {
 		log.Fatalf("Failed to instantiate contract: %v", err)
 	}
@@ -82,11 +89,11 @@ func addBikeHandler(w http.ResponseWriter, r *http.Request) {
 	// Need to run an ETH node locally
 	// Create an IPC based RPC connection to a remote node and instantiate a contract binding
 	// Change the path with your own
-	newBikeId, _ := strconv.ParseInt(r.URL.Path[len("/add-bike/"):], 10, 64)
-	if newBikeId == 0 {
+	newBikeId, err := strconv.ParseInt(r.URL.Path[len("/add-bike/"):], 10, 64)
+	if newBikeId == 0 || err != nil {
 		fmt.Fprintf(w, "<h1>Wrong Parameter<h1>")
 	}
-	conn, err := ethclient.Dial("/home/mexskican/.ethereum/testnet/geth.ipc")
+	conn, err := ethclient.Dial(localEndpoint)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
 	}
