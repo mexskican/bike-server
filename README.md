@@ -20,7 +20,7 @@ $ ./server
 3. Send some requests
 ```
 $ curl http://localhost:8080/view-bike/hourlycost
-$ curl http://localhost:8080/view-bike/isavailable/55
+$ curl http://localhost:8080/view-bike/isavailable/56
 $ curl http://localhost:8080/view-bike/bikeid/0xe8076f19c37f318f59dffb71870f7f9b1ac817ba
 $ curl http://localhost:8080/view-bike/returntime/0xe8076f19c37f318f59dffb71870f7f9b1ac817ba
 
